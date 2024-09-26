@@ -1,3 +1,13 @@
+// Experiment 3: Implement Stack using Array: Bookstack Management System
+// WAP to develop a simple management system for a library that helps track the books returned by patrons. 
+// Each book returned should be pushed onto a stack, and you need to implement this functionality using both an array.
+// Menu for the Program:
+// Welcome to the Bookstack Management System!
+// 1. Add a book
+// 2. Remove the most recent book
+// 3. View the most recent book
+// 4. Display all books
+// 5. Exit
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
