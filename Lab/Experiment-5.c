@@ -14,8 +14,8 @@
 // Remove Task: Allow the user to remove a task by its ID.
 // Mark Task as Completed: Allow the user to update a task's status to "Completed."
 // Display Tasks: Provide a way for the user to view all current tasks in the list.
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct node {
     int data;
@@ -23,10 +23,9 @@ typedef struct node {
 } node;
 
 node* createNode(int new_data) {
-    node *newnode;
-    newnode = (node*)malloc(sizeof(node));
+    node *newnode = (node*)malloc(sizeof(node));
     if (!newnode) {
-        printf("Memory is not allocated ");
+        printf("Memory is not allocated\n");
         exit(0);
     }
     newnode->data = new_data;
@@ -62,11 +61,11 @@ void insertNodeATSpecificPos(node **head, int data_, int pos) {
     }
     node* temp = *head;
     for (int i = 0; i < pos - 1; i++) {
-        temp = temp->next;
         if (temp == NULL) {
             printf("Position out of bounds\n");
             return;
         }
+        temp = temp->next;
     }
     newnode->next = temp->next;
     temp->next = newnode;
@@ -82,75 +81,55 @@ void deleteNodeB(node** head) {
     free(del);
 }
 
-void deleteNodeE(node** head){
-    node* del;
-    node* temp;
-    del = *head;
-    if(del->next==NULL){
-        free(head);
-        head = NULL;
+void deleteNodeE(node** head) {
+    if (*head == NULL) {
+        printf("Stack is empty\n");
+        return;
     }
-    else{
-        del = *head;
-        while(del->next!=NULL){
-            temp = del;
-            del = del->next;
-        }
-        temp->next = NULL;
+    if ((*head)->next == NULL) {
+        free(*head);
+        *head = NULL;
+        return;
+    }
+    node* temp = *head;
+    while (temp->next->next != NULL) {
+        temp = temp->next;
+    }
+    free(temp->next);
+    temp->next = NULL;
+}
+
+void deleteNodeSP(node** head, int pos) {
+    if (*head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    if (pos == 0) {
+        node* del = *head;
+        *head = (*head)->next;
         free(del);
+        return;
     }
-}
-
-void deleteNodeSP(node** head ,int pos){
-    node* del;
-    node* temp;
-    if(pos==0){
-        printf("List is empty");
-    }
-    else{
-        del = *head;
-        for(int i=0;i<pos-1;i++){
-            temp = del;
-            del = del->next;
-            if(del==NULL){
-                printf("Invalid position");
-                break;
-           }
-
+    node* temp = *head;
+    for (int i = 0; i < pos - 1; i++) {
+        if (temp == NULL || temp->next == NULL) {
+            printf("Invalid position\n");
+            return;
         }
-        temp->next = NULL;
-        free(del);
+        temp = temp->next;
     }
+    node* del = temp->next;
+    if (del == NULL) {
+        printf("Invalid position\n");
+        return;
+    }
+    temp->next = del->next;
+    free(del);
 }
-
-void push_at_beginning(node **stack, int data) {
-    insertNodeFromBeg(stack, data);
-}
-
-void push_at_end(node **stack, int data) {
-    insertNodeFromEnd(stack, data);
-}
-
-void push_at_position(node **stack, int data, int pos) {
-    insertNodeATSpecificPos(stack, data, pos);
-}
-
-void pop_from_Begining(node **stack) {
-    deleteNodeB(stack);
-}
-
-void pop_from_End(node **stack) {
-    deleteNodeE(stack);
-}
-
-void pop_from_Specific_position(node **stack,int pos) {
-    deleteNodeSP(stack,pos);
-}
-
 
 void printStack(node *stack) {
     node *x = stack;
-    while (x != NULL){
+    while (x != NULL) {
         printf("%d\t", x->data);
         x = x->next;
     }
@@ -167,8 +146,10 @@ void peek(node *stack) {
 
 int main() {
     node *head = NULL;
-    insertNodeFromHead(&head, 10);
-    insertNodeFromHead(&head, 20);
+
+    // Use correct function names
+    insertNodeFromBeg(&head, 10);
+    insertNodeFromBeg(&head, 20);
     insertNodeFromEnd(&head, 30);
     insertNodeFromEnd(&head, 40);
     insertNodeATSpecificPos(&head, 25, 2);
@@ -177,9 +158,9 @@ int main() {
     
     peek(head);
     
-    pop_from_Begining(&head);
-    pop_from_End(&head);
-    pop_from_Specific_position(&head,3);
+    deleteNodeB(&head);
+    deleteNodeE(&head);
+    deleteNodeSP(&head, 3);
 
     printStack(head);
 
