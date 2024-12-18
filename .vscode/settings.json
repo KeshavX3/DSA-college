@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "experiement-8": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "BFS.C": "cpp"
     }
 }
